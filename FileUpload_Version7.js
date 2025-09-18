@@ -1,42 +1,92 @@
-import React, { useState } from 'react';
+// server.js
+const path = require("path");
+const fs = require("fs");
+const express = require("express");
+const multer = require("multer");
+const mime = require("mime-types");
 
-const allowedTypes = [
-  'image/jpeg', 'image/png',
-  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // xlsx
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // docx
-  'application/vnd.openxmlformats-officedocument.presentationml.presentation', // pptx
-  'application/pdf',
-  'text/plain'
-];
+const app = express();
 
-function FileUpload() {
-  const [file, setFile] = useState(null);
+// (Falls noch nicht vorhanden)
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-  const handleChange = (e) => {
-    const selected = e.target.files[0];
-    if (selected && allowedTypes.includes(selected.type) && selected.size <= 3 * 1024 * 1024) {
-      setFile(selected);
-    } else {
-      alert('Ungültiger Dateityp oder zu groß (max. 3MB)');
-      setFile(null);
-    }
-  };
+// Upload-Verzeichnis
+const UPLOAD_DIR = path.join(__dirname, "uploads");
+if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!file) return;
-    const formData = new FormData();
-    formData.append('file', file);
-    await fetch('/upload', { method: 'POST', body: formData });
-    alert('Upload abgeschlossen');
-  };
+// Erlaubte Endungen & MIME-Types
+const ALLOWED_EXT = new Set(["pdf", "pptx", "docx", "jpg", "jpeg", "txt", "xlsx"]);
+const ALLOWED_MIME = new Set([
+  "application/pdf",
+  // Office
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // docx
+  "application/vnd.openxmlformats-officedocument.presentationml.presentation", // pptx
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // xlsx
+  // Bilder
+  "image/jpeg",
+  // Text
+  "text/plain"
+]);
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <input type="file" accept=".jpg,.jpeg,.png,.xlsx,.docx,.pptx,.pdf,.txt" onChange={handleChange} />
-      <button type="submit">Hochladen</button>
-    </form>
-  );
+// Multer-Storage: Dateiname hart absichern
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, UPLOAD_DIR),
+  filename: (req, file, cb) => {
+    // sichere, kollisionsarme Benennung
+    const ext = (mime.extension(file.mimetype) || path.extname(file.originalname).slice(1) || "bin").toLowerCase();
+    const base = path.parse(file.originalname).name.replace(/[^a-z0-9_\-]+/gi, "_").slice(0, 60);
+    cb(null, `${Date.now()}_${base}.${ext}`);
+  },
+});
+
+// Filter: Typen prüfen
+function fileFilter(req, file, cb) {
+  const ext = (mime.extension(file.mimetype) || path.extname(file.originalname).slice(1) || "").toLowerCase();
+  const ok = ALLOWED_EXT.has(ext) && ALLOWED_MIME.has(file.mimetype);
+  if (!ok) return cb(new Error("Unzulässiger Dateityp."), false);
+  cb(null, true);
 }
 
-export default FileUpload;
+// Multer-Instance mit 4 MB Limit
+const upload = multer({
+  storage,
+  fileFilter,
+  limits: {
+    fileSize: 4 * 1024 * 1024, // 4 MB
+    files: 1,
+  },
+});
+
+// Upload-Endpoint
+app.post("/api/upload", upload.single("file"), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ ok: false, error: "Keine Datei empfangen." });
+  }
+
+  // Hier könntest du die Datei an Gemini weiterreichen oder analysieren.
+  // Für jetzt geben wir Meta-Infos zurück:
+  return res.json({
+    ok: true,
+    filename: req.file.filename,
+    originalName: req.file.originalname,
+    mime: req.file.mimetype,
+    size: req.file.size,
+    path: `/uploads/${req.file.filename}`,
+  });
+});
+
+// (Optional) Statische Auslieferung der Uploads – nur wenn gewollt!
+app.use("/uploads", express.static(UPLOAD_DIR, {
+  // Sicherheits-Header
+  setHeaders: (res) => {
+    res.setHeader("Content-Type", "application/octet-stream");
+    res.setHeader("X-Content-Type-Options", "nosniff");
+  },
+}));
+
+// ...dein restlicher Server (z.B. vorhandene Routen)
+
+// Start (falls nicht schon vorhanden)
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server läuft auf :${PORT}`));

@@ -1,136 +1,160 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Gemini – KI-Chat</title>
+
+    <!-- SEO -->
     <meta
       name="description"
-      content="Explore the power of advanced AI with our Gemini clone! ✨ Get cutting-edge features and seamless interaction. Try it now! 🤖"
+      content="Erlebe einen schnellen, modernen KI-Chat im Gemini-Stil. Schreibe, lerne, experimentiere – direkt im Browser."
     />
     <meta
       name="keywords"
-      content="Gemini clone, AI, artificial intelligence, chatbot, NLP, machine learning, innovative, technology, assistant, chat"
+      content="Gemini, KI, Chatbot, NLP, künstliche Intelligenz, Machine Learning, Assistent, Chat"
     />
     <meta name="author" content="Philipp Rucker" />
     <meta name="robots" content="index, follow" />
-    <meta name="language" content="en" />
+    <link rel="canonical" href="https://geminiclonebygouranga.netlify.app/" />
 
-    <meta property="og:title" content="Your Gemini Clone Title Here 🚀" />
+    <!-- Open Graph -->
+    <meta property="og:title" content="Gemini – KI-Chat" />
     <meta
       property="og:description"
-      content="Explore the power of advanced AI with our Gemini clone! ✨ Get cutting-edge features and seamless interaction. Try it now! 🤖"
+      content="Moderner KI-Chat im Gemini-Stil. Schnelle Antworten, klare Oberfläche."
     />
     <meta
       property="og:image"
-      content="URL_TO_YOUR_WEBSITE_LOGO_OR_A_REPRESENTATIVE_SCREENSHOT"
-    />
-    <meta
-      property="og:url"
-      content="https://geminiclonebygouranga.netlify.app/"
-    />
+      content="https://dein.domain/path/preview.jpg" />
+    <meta property="og:url" content="https://geminiclonebygouranga.netlify.app/" />
     <meta property="og:type" content="website" />
 
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Your Gemini Clone Title Here 🚀" />
+    <meta name="twitter:title" content="Gemini – KI-Chat" />
     <meta
       name="twitter:description"
-      content="Explore the power of advanced AI with our Gemini clone! ✨ Get cutting-edge features and seamless interaction. Try it now! 🤖"
+      content="Moderner KI-Chat im Gemini-Stil. Schnelle Antworten, klare Oberfläche."
     />
     <meta
       name="twitter:image"
-      content="URL_TO_YOUR_WEBSITE_LOGO_OR_A_REPRESENTATIVE_SCREENSHOT"
+      content="https://dein.domain/path/preview.jpg"
     />
-    <meta
-      name="twitter:url"
-      content="https://geminiclonebygouranga.netlify.app/"
-    />
+    <meta name="twitter:url" content="https://geminiclonebygouranga.netlify.app/" />
+
+    <!-- Ads (falls genutzt) -->
     <meta name="google-adsense-account" content="ca-pub-8784624020948059" />
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Styles -->
+    <link rel="preload" href="style.css" as="style" />
     <link rel="stylesheet" href="assets/highlight-js/styles/github-dark.css" />
-    <link href="assets/boxicons-2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/boxicons-2.1.4/css/boxicons.min.css" />
     <link rel="stylesheet" href="style.css" />
-    <link rel="shortcut icon" href="assets/gemini.svg" type="image/x-icon" />
-    <script src="assets/highlight-js/highlight.min.js"></script>
-    <script src="assets/marked/marked.min.js"></script>
-    <title>Google Gemini Clone</title>
+    <link rel="icon" href="assets/gemini.svg" type="image/svg+xml" />
+
+    <!-- Libs -->
+    <script src="assets/highlight-js/highlight.min.js" defer></script>
+    <script src="assets/marked/marked.min.js" defer></script>
   </head>
 
   <body>
-    <nav class="navbar">
-      <h3 class="navbar__logo">Gemini</h3>
-      <button class="navbar__button" id="themeToggler">
-        <i class="bx bx-sun"></i>
+    <nav class="navbar" role="navigation" aria-label="Hauptnavigation">
+      <h1 class="navbar__logo">Gemini</h1>
+      <button class="navbar__button" id="themeToggler" type="button" aria-label="Theme umschalten">
+        <i class="bx bx-sun" aria-hidden="true"></i>
       </button>
     </nav>
 
     <header class="header">
       <div class="header__title">
-        <h1>Hello, There!</h1>
-        <h2>How can I help you today?</h2>
+        <h2>Hallo! 👋</h2>
+        <p>Wobei kann ich dir heute helfen?</p>
       </div>
-      <div class="suggests">
-        <div class="suggests__item">
+
+      <div class="suggests" role="list">
+        <button class="suggests__item" role="listitem" type="button">
           <p class="suggests__item-text">
-            Geben Sie Tipps, wie Sie Kindern helfen können, ihre Hausaufgaben rechtzeitig zu erledigen
+            Gib Tipps, wie Kinder ihre Hausaufgaben rechtzeitig erledigen
           </p>
-          <div class="suggests__item-icon">
+          <div class="suggests__item-icon" aria-hidden="true">
             <i class="bx bx-stopwatch"></i>
           </div>
-        </div>
-        <div class="suggests__item">
-          <p class="suggests__item-text">
-            Helfen Sie mir, eine Abwesenheits-E-Mail zu schreiben
-          </p>
-          <div class="suggests__item-icon">
+        </button>
+
+        <button class="suggests__item" role="listitem" type="button">
+          <p class="suggests__item-text">Hilf mir, eine Abwesenheits-E-Mail zu schreiben</p>
+          <div class="suggests__item-icon" aria-hidden="true">
             <i class="bx bx-edit-alt"></i>
           </div>
-        </div>
-        <div class="suggests__item">
-          <p class="suggests__item-text">
-            Gib mir Sätze, um eine neue Sprache zu lernen
-          </p>
-          <div class="suggests__item-icon">
+        </button>
+
+        <button class="suggests__item" role="listitem" type="button">
+          <p class="suggests__item-text">Gib mir Sätze, um eine neue Sprache zu lernen</p>
+          <div class="suggests__item-icon" aria-hidden="true">
             <i class="bx bx-compass"></i>
           </div>
-        </div>
-        <div class="suggests__item">
-          <p class="suggests__item-text">
-            Zeigen Sie mir, wie man etwas von Hand baut
-          </p>
-          <div class="suggests__item-icon">
+        </button>
+
+        <button class="suggests__item" role="listitem" type="button">
+          <p class="suggests__item-text">Zeig mir, wie man etwas von Hand baut</p>
+          <div class="suggests__item-icon" aria-hidden="true">
             <i class="bx bx-wrench"></i>
           </div>
-        </div>
+        </button>
       </div>
     </header>
 
-    <section class="chats"></section>
+    <main>
+      <section class="chats" aria-live="polite" aria-busy="false"></section>
 
-    <section class="prompt">
-      <form action="#" class="prompt__form" novalidate>
-        <div class="prompt__input-wrapper">
+      <section class="prompt">
+        <form action="#" class="prompt__form" novalidate>
+          <div class="prompt__input-wrapper">
+            <label class="sr-only" for="promptInput">Eingabe</label>
+            <input
+              id="promptInput"
+              type="text"
+              placeholder="Schreibe hier deine Eingabe…"
+              class="prompt__form-input"
+              autocomplete="off"
+              required
+              aria-label="Eingabefeld für Prompt"
+            />
+
+            <button class="prompt__form-button" id="sendButton" type="submit" aria-label="Senden">
+              <i class="bx bx-send" aria-hidden="true"></i>
+            </button>
+            <button class="prompt__form-button" id="deleteButton" type="button" aria-label="Chat löschen">
+              <i class="bx bx-trash" aria-hidden="true"></i>
+            </button>
+          </div>
+        </form>
+
+        <!-- 🔽 Dein Upload-Formular (max 4 MB, erlaubte Typen) -->
+        <form id="uploadForm" class="upload" enctype="multipart/form-data" aria-label="Datei hochladen" novalidate>
           <input
-            type="text"
-            placeholder="Enter a prompt here"
-            class="prompt__form-input"
-            required
+            id="fileInput"
+            type="file"
+            name="file"
+            accept=".pdf,.pptx,.docx,.xlsx,.jpg,.jpeg,.txt"
+            aria-label="Datei auswählen"
           />
-          <button class="prompt__form-button" id="sendButton">
-            <i class="bx bx-send"></i>
-          </button>
-          <button class="prompt__form-button" id="deleteButton">
-            <i class="bx bx-trash"></i>
-          </button>
-        </div>
-      </form>
-      <p class="prompt__disclaim">
-        Gemini may display inaccurate info, including about people, so
-        double-check its responses.
-      </p>
-      <!-- Deutlich sichtbarer Entwickler-Hinweis -->
-      <p class="prompt__developer" style="font-size:1.1em; color:#00bcd4; font-weight:bold; margin-top:10px; text-align:center;">
-        Entwickler dieser Seite/App: Philipp Rucker
-      </p>
-    </section>
+          <small>Erlaubt: pdf, pptx, docx, xlsx, jpg/jpeg, txt • Max: 4&nbsp;MB</small>
+          <button type="submit" aria-label="Datei hochladen">Hochladen</button>
+          <div id="uploadMsg" role="status" aria-live="polite"></div>
+        </form>
+
+        <p class="prompt__disclaim">
+          Gemini kann ungenaue Informationen anzeigen, auch über Personen. Bitte prüfe Antworten kritisch.
+        </p>
+
+        <p class="prompt__developer" style="font-size:1.1em;color:#00bcd4;font-weight:bold;margin-top:10px;text-align:center;">
+          Entwickler dieser Seite/App: Philipp Rucker
+        </p>
+      </section>
+    </main>
 
     <script
       async
@@ -138,6 +162,7 @@
       crossorigin="anonymous"
     ></script>
 
-    <script type="module" src="script.js"></script>
+    <script type="module" src="script.js" defer></script>
+    <noscript>Bitte JavaScript aktivieren, um den Chat verwenden zu können.</noscript>
   </body>
 </html>
